@@ -331,7 +331,7 @@ def blender3D(blenderSize, fillRatio,thiefSize, distribution, DL=20, particleSiz
   #adjust results so they're in percent of expected assay
   percentAssays = []
   for results in results:
-    assay = ((results/percentPurityOfDS)*100)
+    assay = ((results/DL)*100)
     percentAssays.append(round(assay,2))
 
   #display results table
