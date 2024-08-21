@@ -352,7 +352,7 @@ def blender3D(blenderSize, fillRatio,thiefSize, distribution, DL=20, particleSiz
   st.dataframe(data=df)
   
 def displayBlender(placeholderaxes, blender,filledspace, top, middle, bottom, TopSamplingArray, MidSamplingArray, BotSamplingArray):
-  progbar = st.progress(0.0)
+  progbar = st.progress(0.0, text = "Initializing...")
 
   ##############################################################################################
   fig = plt.figure(figsize=(33,10))
