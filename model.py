@@ -70,9 +70,6 @@ def blender3D(blenderSize, fillRatio,thiefSize, distribution, DL=20, particleSiz
   middle = filledspace[slimmer*2:placeholderaxes-(slimmer*2), slimmer*2:placeholderaxes-(slimmer*2),thirdStepEnd:secondStepEnd]
   bottom = filledspace[slimmer*4:placeholderaxes-(slimmer*4), slimmer*4:placeholderaxes-(slimmer*4),0:fourthStepEnd]
 
-  portionTop = np.sum(top)/np.sum(filledspace)
-  portionMiddle = np.sum(middle)/np.sum(filledspace)
-  portionBottom = np.sum(bottom)/np.sum(filledspace)
   ##############################################################################################
   #begin with all excipients
   top[:,:,:] = 0.00001 #close enough to zero where it won't affect simulation, but will still be displayed
@@ -80,9 +77,12 @@ def blender3D(blenderSize, fillRatio,thiefSize, distribution, DL=20, particleSiz
   bottom[:,:,:] = 0.00001
 
   numDSparticles = int(filledparticles * (DL/100))
-  numDStop = int(numDSparticles*portionTop)
-  numDSmid = int(numDSparticles*portionMiddle)
-  numDSbot = int(numDSparticles*portionBottom)
+  numDStop = int(np.product(top.shape)*(DL/100))
+  numDSmid = int(np.product(middle.shape)*(DL/100))
+  numDSbot = int(np.product(bottom.shape)*(DL/100))
+  portionTop = numDStop/numDSparticles
+  portionMiddle = numDSmid/numDSparticles
+  portionBottom = numDSbot/numDSparticles
   
   ##############################################################################################
   #now distribute DS
@@ -179,7 +179,7 @@ def blender3D(blenderSize, fillRatio,thiefSize, distribution, DL=20, particleSiz
       numParticlesPerClump = int(clumpSize/particleSize)
       axisSizeclump = int(numParticlesPerClump**(1/3))
       if axisSizeclump > bottom.shape[2]:
-        st.write("Clump size too big in relation to blender for correct sampling, please reduce clump size or increase blender size.")
+        st.warning("Clump size too big in relation to blender for correct sampling, please reduce clump size or increase blender size.")
         return
       numClumps = int(clumpedParticles/numParticlesPerClump)
       #disperse clumps
@@ -220,7 +220,7 @@ def blender3D(blenderSize, fillRatio,thiefSize, distribution, DL=20, particleSiz
           bottom[random_x:random_x+axisSizeclump,random_z:random_z+axisSizeclump,random_y:random_y+axisSizeclump] = percentPurityOfDS
           n += 1
 
-      remainingParticles = numDSparticles - clumpedParticles
+      remainingParticles = (numDStop+numDSmid+numDSbot) - clumpedParticles
       remainderTop = int(remainingParticles*portionTop)
       remainderMid = int(remainingParticles*portionMiddle)
       reminderBot = int(remainingParticles*portionBottom)
@@ -264,7 +264,7 @@ def blender3D(blenderSize, fillRatio,thiefSize, distribution, DL=20, particleSiz
   currentSample = 0
   thiefDimensions = int((thiefSize/particlesizecm)**(1/3))
   if thiefDimensions > bottom.shape[2]:
-    st.write("thief size too large in comparison to blender. Please increase blender size or decrease thief size")
+    st.warning("thief size too large in comparison to blender. Please increase blender size or decrease thief size")
     return
   
   topfirststart = slimmer*4
@@ -333,8 +333,6 @@ def blender3D(blenderSize, fillRatio,thiefSize, distribution, DL=20, particleSiz
   for results in results:
     assay = ((results/DL)*100)
     percentAssays.append(round(assay,2))
-
-  st.write(percentAssays)
   
   #display results table
   positions = ["top-1", "top-2", "top-3", "top-4",
