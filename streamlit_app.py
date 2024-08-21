@@ -20,6 +20,7 @@ with tab1:
       percentPurityOfDS = st.slider("Purity of DS (%)", min_value= 0, max_value = 110, value = 100, step=10)
       DL = st.slider("Blend drug load (%)", min_value = 0, max_value = 100, value = 20, step=10)
       fillRatio = st.slider("Fill Ratio", min_value=0.4, max_value=0.9, step= 0.1, value=0.5, help="What ratio of the blenders total volume is filled with powder?")
+      particleSize = st.slider("Particle Size", min_value = 50, max_value=200, step = 10, value = 100)
   
     if distribution == "poor":
       with advanced_options:
@@ -40,7 +41,8 @@ with tab1:
                   fillRatio=fillRatio/100,
                   distribution= distribution,
                   clumpiness=percentClumps/10,
-                  clumpSize=sizeClumps)
+                  clumpSize=sizeClumps,
+                  particleSize = particleSize)
       else:
         blender3D(
                   thiefSize=thiefSize, 
@@ -48,8 +50,10 @@ with tab1:
                   DL=DL, 
                   blenderSize=blenderSize, 
                   fillRatio=fillRatio,
-                  distribution= distribution)
+                  distribution= distribution,
+                  particleSize = particleSize)
   if st.button("Visualize my model (this can take a while)"):
+    particleSize = 
     displayBlender(placeholderaxes, blender,filledspace, top, middle, bottom, TopSamplingArray, MidSamplingArray, BotSamplingArray)
   
     # if model_type == "multiple runs":
