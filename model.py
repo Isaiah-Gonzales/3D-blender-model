@@ -376,7 +376,7 @@ def displayBlender(placeholderaxes, blender,filledspace, top, middle, bottom, To
   
   ##############################################################################################
   ax2 = fig.add_subplot(1, 3, 2, projection='3d')
-  ax2.set_title("Top, middle, and bottom sample locations with DS distribution = " + str(distribution). + " DS shown in black, excipient shown in white".)
+  ax2.set_title("Top, middle, and bottom sample locations with DS distribution = " + str(distribution) + " DS shown in black, excipient shown in white".)
   cmap = plt.cm.binary.copy()
   topcolors = cmap(top)
   ax2.voxels(top, facecolors=topcolors)
