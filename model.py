@@ -6,6 +6,7 @@ import time
 import numpy as np
 import random
 import math
+import pandas as pd
 
 def blender3D(blenderSize, fillRatio,thiefSize, distribution, DL=20, particleSize=100,percentPurityOfDS=100, clumpiness=0, clumpSize=1000):
   global placeholderaxes 
