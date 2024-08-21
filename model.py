@@ -340,7 +340,7 @@ def blender3D(blenderSize, fillRatio,thiefSize, distribution, DL=20, particleSiz
                "bot-1", "bot-2", "bot-3", "bot-4"]
   data1 = {'positions': positions,
            'assay (%)': percentAssays}
-  df = pd.DataFrame(data)
+  df = pd.DataFrame(data1)
   st.dataframe(data=df)
   
 def displayBlender():
