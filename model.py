@@ -327,6 +327,14 @@ def blender3D(blenderSize, fillRatio,thiefSize, distribution, DL=20, particleSiz
   BotSamplingArray[botsecondstart:botsecondend,botsecondstart:botsecondend,bottom.shape[2]-thiefDimensions:bottom.shape[2]] = 1
   results.append(np.mean(bottom[botsecondstart:botsecondend,botsecondstart:botsecondend,bottom.shape[2]-thiefDimensions:bottom.shape[2]]))
 
+  #resize top, middle, and bottom so they'll be correctly displayed      
+  top = np.pad(top,((0,0),(0,0),(firstStepEnd,0)), mode='constant')
+  middle = np.pad(middle,((slimmer*2,slimmer*2),(slimmer*2,slimmer*2),(thirdStepEnd,0)))
+  bottom = np.pad(bottom,((slimmer*4,slimmer*4),(slimmer*4,0),(0,0)))
+
+  TopSamplingArray = np.pad(TopSamplingArray,((0,0),(0,0),(firstStepEnd,0)), mode='constant')
+  MidSamplingArray = np.pad(MidSamplingArray,((slimmer*2,slimmer*2),(slimmer*2,slimmer*2),(thirdStepEnd,0)))
+  BotSamplingArray = np.pad(BotSamplingArray,((slimmer*4,slimmer*4),(slimmer*4,0),(0,0)))
 
   #adjust results so they're in percent of expected assay
   percentAssays = []
@@ -345,15 +353,6 @@ def blender3D(blenderSize, fillRatio,thiefSize, distribution, DL=20, particleSiz
   
 def displayBlender(placeholderaxes, blender,filledspace, top, middle, bottom, TopSamplingArray, MidSamplingArray, BotSamplingArray):
   progbar = st.progress(0.0)
-  
-  #resize top, middle, and bottom so they'll be correctly displayed      
-  top = np.pad(top,((0,0),(0,0),(firstStepEnd,0)), mode='constant')
-  middle = np.pad(middle,((slimmer*2,slimmer*2),(slimmer*2,slimmer*2),(thirdStepEnd,0)))
-  bottom = np.pad(bottom,((slimmer*4,slimmer*4),(slimmer*4,0),(0,0)))
-
-  TopSamplingArray = np.pad(TopSamplingArray,((0,0),(0,0),(firstStepEnd,0)), mode='constant')
-  MidSamplingArray = np.pad(MidSamplingArray,((slimmer*2,slimmer*2),(slimmer*2,slimmer*2),(thirdStepEnd,0)))
-  BotSamplingArray = np.pad(BotSamplingArray,((slimmer*4,slimmer*4),(slimmer*4,0),(0,0)))
 
   ##############################################################################################
   fig = plt.figure(figsize=(33,10))
