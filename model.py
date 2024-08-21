@@ -334,6 +334,8 @@ def blender3D(blenderSize, fillRatio,thiefSize, distribution, DL=20, particleSiz
     assay = ((results/DL)*100)
     percentAssays.append(round(assay,2))
 
+  st.write(percentAssays)
+  
   #display results table
   positions = ["top-1", "top-2", "top-3", "top-4",
                "mid-1", "mid-2", "mid-3", "mid-4",
