@@ -53,7 +53,7 @@ with tab1:
                   distribution= distribution,
                   particleSize = particleSize)
   if st.button("Visualize my model (this can take a while)"):
-    displayBlender(placeholderaxes, blender,filledspace, top, middle, bottom, TopSamplingArray, MidSamplingArray, BotSamplingArray, particleSize, distribution)
+    displayBlender(placeholderaxes, blender,filledspace, top, middle, bottom, TopSamplingArray, MidSamplingArray, BotSamplingArray, particleSize, distribution, percentPurityOfDS)
   
     # if model_type == "multiple runs":
     #   results = []
