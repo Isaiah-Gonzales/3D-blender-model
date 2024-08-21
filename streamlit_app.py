@@ -19,7 +19,7 @@ with tab1:
       thiefSize = st.slider("Size of sample thief (mL)", min_value = 1, max_value = 10, step =1)
       percentPurityOfDS = st.slider("Purity of DS (%)", min_value= 0, max_value = 110, value = 100, step=10)
       DL = st.slider("Blend drug load (%)", min_value = 0, max_value = 100, value = 20, step=10)
-      fillRatio = st.slider("Fill volume (%)", min_value=10, max_value=100, step= 10, value=50, help="What percentage of the blenders total volume is filled with powder?")
+      fillRatio = st.slider("Fill Ratio", min_value=0.4, max_value=0.9, step= 0.1, value=0.5, help="What ratio of the blenders total volume is filled with powder?")
   
     if distribution == "poor":
       with advanced_options:
@@ -37,7 +37,7 @@ with tab1:
                   percentPurityOfDS=percentPurityOfDS,
                   DL=DL, 
                   blenderSize=blenderSize, 
-                  fillRatio=(fillRatio/100),
+                  fillRatio=fillRatio/100,
                   distribution= distribution,
                   clumpiness=percentClumps/10,
                   clumpSize=sizeClumps)
@@ -47,7 +47,7 @@ with tab1:
                   percentPurityOfDS=percentPurityOfDS,
                   DL=DL, 
                   blenderSize=blenderSize, 
-                  fillRatio=(fillRatio/100),
+                  fillRatio=fillRatio,
                   distribution= distribution)
   
     # if model_type == "multiple runs":
