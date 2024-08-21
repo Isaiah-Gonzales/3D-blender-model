@@ -49,6 +49,8 @@ with tab1:
                   blenderSize=blenderSize, 
                   fillRatio=fillRatio,
                   distribution= distribution)
+        if st.buttom("Visualize my model (this can take a while)"):
+          displayBlender()
   
     # if model_type == "multiple runs":
     #   results = []
