@@ -376,7 +376,7 @@ def displayBlender(placeholderaxes, blender,filledspace, top, middle, bottom, To
   
   ##############################################################################################
   ax2 = fig.add_subplot(1, 3, 2, projection='3d')
-  ax2.set_title("Top, middle, and bottom sample locations with DS distribution = " + str(distribution))
+  ax2.set_title("Top, middle, and bottom sample locations with DS distribution = " + str(distribution). + " DS shown in black, excipient shown in white".)
   cmap = plt.cm.binary.copy()
   topcolors = cmap(top)
   ax2.voxels(top, facecolors=topcolors)
@@ -412,10 +412,7 @@ def displayBlender(placeholderaxes, blender,filledspace, top, middle, bottom, To
   ax3.set_xlabel("tick marks show particle count equivalent to: " + str(dimensionsinmL) + " cm")
   ax3.set_ylabel(str(dimensionsinmL) + " cm")
   ax3.set_zlabel(str(dimensionsinmL) + " cm")    
-  norm = matplotlib.colors.Normalize(vmin=0, vmax=percentPurityOfDS)
-  m=plt.cm.ScalarMappable(cmap=plt.cm.binary, norm=norm)
-  m.set_array([])
-  plt.colorbar(m, label='DS %')
+
   progbar.progress(0.75, text = "Plot 3 of 3 generated")
 
   ##############################################################################################
