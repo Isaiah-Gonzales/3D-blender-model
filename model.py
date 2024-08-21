@@ -79,7 +79,7 @@ def blender3D(blenderSize, fillRatio,thiefSize, distribution, DL=20, particleSiz
   middle[:,:,:] = 0.00001
   bottom[:,:,:] = 0.00001
 
-  numDSparticles = int(particles * (DL/100))
+  numDSparticles = int(filledparticles * (DL/100))
   numDStop = int(numDSparticles*portionTop)
   numDSmid = int(numDSparticles*portionMiddle)
   numDSbot = int(numDSparticles*portionBottom)
