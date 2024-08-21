@@ -351,7 +351,7 @@ def blender3D(blenderSize, fillRatio,thiefSize, distribution, DL=20, particleSiz
   df = pd.DataFrame(data1)
   st.dataframe(data=df)
   
-def displayBlender(placeholderaxes, blender,filledspace, top, middle, bottom, TopSamplingArray, MidSamplingArray, BotSamplingArray, particleSize, distribution):
+def displayBlender(placeholderaxes, blender,filledspace, top, middle, bottom, TopSamplingArray, MidSamplingArray, BotSamplingArray, particleSize, distribution, percentPurityOfDS):
   progbar = st.progress(0.0, text = "Initializing...")
 
   ##############################################################################################
