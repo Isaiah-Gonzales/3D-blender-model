@@ -50,7 +50,7 @@ with tab1:
                   fillRatio=fillRatio,
                   distribution= distribution)
   if st.button("Visualize my model (this can take a while)"):
-    displayBlender(top=top)
+    displayBlender(placeholderaxes, blender,filledspace, top, middle, bottom, TopSamplingArray, MidSamplingArray, BotSamplingArray)
   
     # if model_type == "multiple runs":
     #   results = []
