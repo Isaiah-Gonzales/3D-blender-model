@@ -1,6 +1,8 @@
 from model import *
 import streamlit as st
 
+st.image("3D Blender.png")
+
 tab1, tab2, tab3 = st.tabs(["model", "example", "how it works"])
 
 with tab1:
