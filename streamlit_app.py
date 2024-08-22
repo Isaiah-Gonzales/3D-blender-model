@@ -53,8 +53,11 @@ with tab1:
                   fillRatio=fillRatio,
                   distribution= distribution,
                   particleSize = particleSize)
-  if st.button("Visualize my model (this can take a while)"):
-    displayBlender(placeholderaxes, blender,filledspace, top, middle, bottom, TopSamplingArray, MidSamplingArray, BotSamplingArray, particleSize, distribution, percentPurityOfDS)
+
+  df_exists = 'df' in locals() or 'df' in globals()
+  if df_exists:
+    if st.button("Visualize my model (this can take a while)"):
+      displayBlender(placeholderaxes, blender,filledspace, top, middle, bottom, TopSamplingArray, MidSamplingArray, BotSamplingArray, particleSize, distribution, percentPurityOfDS)
   
     # if model_type == "multiple runs":
     #   results = []
