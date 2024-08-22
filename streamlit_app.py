@@ -58,9 +58,9 @@ with tab1:
                   distribution= distribution,
                   particleSize = particleSize)
 
-  if st.session_state['button'] == True:
-    if st.button("Visualize my model (this can take a while)"):
-      displayBlender(placeholderaxes, blender,filledspace, top, middle, bottom, TopSamplingArray, MidSamplingArray, BotSamplingArray, particleSize, distribution, percentPurityOfDS)
+      if st.session_state['button'] == True:
+        if st.button("Visualize my model (this can take a while)"):
+          displayBlender(placeholderaxes, blender,filledspace, top, middle, bottom, TopSamplingArray, MidSamplingArray, BotSamplingArray, particleSize, distribution, percentPurityOfDS)
   
     if model_type == "multiple runs":
       results = []
@@ -108,7 +108,7 @@ with tab1:
       plt.title("Spread of mean assays for simulated blender with distribution = " + str(distribution))
       plt.ylabel("Mean Assay (%)")
       st.pyplot(figure)
-
+  
       #show results table
       metrics = ["Min. Average Assay Observed (%)", 
                  "Max. Average Assay Observed (%)", 
