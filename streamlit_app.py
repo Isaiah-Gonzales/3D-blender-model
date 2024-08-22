@@ -62,66 +62,66 @@ with tab1:
         if st.button("Visualize my model (this can take a while)"):
           displayBlender(placeholderaxes, blender,filledspace, top, middle, bottom, TopSamplingArray, MidSamplingArray, BotSamplingArray, particleSize, distribution, percentPurityOfDS)
   
-    if model_type == "multiple runs":
-      results = []
-      meanResults = []
-      i = 0
-      progbar = st.progress(0.0)
-      if distribution == "poor":
-        while i < numLoops:
-          progbar.progress(i/numLoops, text = "simulation " + str(i) + " of " + str(numLoops))
-          results.append(blender3D(
-                  thiefSize=thiefSize, 
-                  percentPurityOfDS=percentPurityOfDS,
-                  DL=DL, 
-                  blenderSize=blenderSize, 
-                  fillRatio=fillRatio,
-                  distribution= distribution,
-                  clumpiness=percentClumps/10,
-                  clumpSize=sizeClumps,
-                  particleSize = particleSize)
-          i += 1
-        progbar.empty()
-      else:
-        while i < numLoops:
-          progbar.progress(i/numLoops, text = "simulation " + str(i) + " of " + str(numLoops))
-          results.append(blender3D(
-                  thiefSize=thiefSize, 
-                  percentPurityOfDS=percentPurityOfDS,
-                  DL=DL, 
-                  blenderSize=blenderSize, 
-                  fillRatio=fillRatio,
-                  distribution= distribution,
-                  particleSize = particleSize)
-          i += 1
-        progbar.empty()
+    # if model_type == "multiple runs":
+    #   results = []
+    #   meanResults = []
+    #   i = 0
+    #   progbar = st.progress(0.0)
+    #   if distribution == "poor":
+    #     while i < numLoops:
+    #       progbar.progress(i/numLoops, text = "simulation " + str(i) + " of " + str(numLoops))
+    #       results.append(blender3D(
+    #               thiefSize=thiefSize, 
+    #               percentPurityOfDS=percentPurityOfDS,
+    #               DL=DL, 
+    #               blenderSize=blenderSize, 
+    #               fillRatio=fillRatio,
+    #               distribution= distribution,
+    #               clumpiness=percentClumps/10,
+    #               clumpSize=sizeClumps,
+    #               particleSize = particleSize)
+    #       i += 1
+    #     progbar.empty()
+    #   else:
+    #     while i < numLoops:
+    #       progbar.progress(i/numLoops, text = "simulation " + str(i) + " of " + str(numLoops))
+    #       results.append(blender3D(
+    #               thiefSize=thiefSize, 
+    #               percentPurityOfDS=percentPurityOfDS,
+    #               DL=DL, 
+    #               blenderSize=blenderSize, 
+    #               fillRatio=fillRatio,
+    #               distribution= distribution,
+    #               particleSize = particleSize)
+    #       i += 1
+    #     progbar.empty()
           
-      flattenedResults = []
-      for result in results:
-        meanResults.append(np.mean(result))
-        for val in result:
-          flattenedResults.append(val)
+    #   flattenedResults = []
+    #   for result in results:
+    #     meanResults.append(np.mean(result))
+    #     for val in result:
+    #       flattenedResults.append(val)
   
       
-      figure, ax = plt.subplots(figsize=(10,10))
-      viz = ax.boxplot(meanResults)
-      plt.title("Spread of mean assays for simulated blender with distribution = " + str(distribution))
-      plt.ylabel("Mean Assay (%)")
-      st.pyplot(figure)
+    #   figure, ax = plt.subplots(figsize=(10,10))
+    #   viz = ax.boxplot(meanResults)
+    #   plt.title("Spread of mean assays for simulated blender with distribution = " + str(distribution))
+    #   plt.ylabel("Mean Assay (%)")
+    #   st.pyplot(figure)
   
-      #show results table
-      metrics = ["Min. Average Assay Observed (%)", 
-                 "Max. Average Assay Observed (%)", 
-                 "Standard Deviation", 
-                 "Min. Individual Assay Observed (%)", 
-                 "Max. Individual Assay Observed (%)"]
-      values = [round(min(meanResults),2), 
-                round(max(meanResults),2), 
-                round(np.std(meanResults),2),
-                round(min(flattenedResults),2),
-                round(max(flattenedResults),2)]
+    #   #show results table
+    #   metrics = ["Min. Average Assay Observed (%)", 
+    #              "Max. Average Assay Observed (%)", 
+    #              "Standard Deviation", 
+    #              "Min. Individual Assay Observed (%)", 
+    #              "Max. Individual Assay Observed (%)"]
+    #   values = [round(min(meanResults),2), 
+    #             round(max(meanResults),2), 
+    #             round(np.std(meanResults),2),
+    #             round(min(flattenedResults),2),
+    #             round(max(flattenedResults),2)]
       
-      multipleRunResults = {"Metric": metrics,
-                            "Value": values} 
-      multipleRundf = pd.DataFrame(multipleRunResults)
-      st.dataframe(multipleRundf)
+    #   multipleRunResults = {"Metric": metrics,
+    #                         "Value": values} 
+    #   multipleRundf = pd.DataFrame(multipleRunResults)
+    #   st.dataframe(multipleRundf)
