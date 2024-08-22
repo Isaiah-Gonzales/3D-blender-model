@@ -5,7 +5,7 @@ tab1, tab2, tab3 = st.tabs(["model", "example", "how it works"])
 
 with tab1:
   st.title("3D BU Statistical Model")
-  st.image("3D Blender.png", use_column_width="never")
+  st.image("3D Blender.png", use_column_width="never", width=1000)
   st.write("Hi and welcome, this tool creates a model of a blender depending on your inputs. It's recommended to look at the :blue-background[example] tab if this is your first time.")
   st.write("If you have any feedback, please reach out to either **Isaiah Gonzales** or **Rajarshi Sengupta**.")
            
