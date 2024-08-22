@@ -171,90 +171,86 @@ def blender3D(blenderSize, fillRatio,thiefSize, distribution, DL=20, particleSiz
     bottom = flattenedbottom.reshape(bottom.shape)
     
   ##############################################################################################
-  if distribution == "poor":
-    if clumpiness == 0:
-      distribution = "random"
-    else:
-      clumpedParticles = int(numDSparticles*(clumpiness/10))
-      numParticlesPerClump = int(clumpSize/particleSize)
-      axisSizeclump = int(numParticlesPerClump**(1/3))
-      if axisSizeclump > bottom.shape[2]:
-        st.warning("Clump size too big in relation to blender for correct sampling, please reduce clump size or increase blender size.")
-        return
-      numClumps = int(clumpedParticles/numParticlesPerClump)
-      #disperse clumps
-      n = 0
-      numClumpsTop = int(numClumps*portionTop)
-      while n < numClumpsTop:
-        random_x = random.randint(0,top.shape[0]-axisSizeclump)
-        random_z = random.randint(0,top.shape[1]-axisSizeclump)
-        random_y = random.randint(0,top.shape[2]-axisSizeclump)
-        section = top[random_x:random_x+axisSizeclump,random_z:random_z+axisSizeclump,random_y:random_y+axisSizeclump]
-        if any(percentPurityOfDS in sublist for sublist in section):
-          pass
-        else:
-          top[random_x:random_x+axisSizeclump,random_z:random_z+axisSizeclump,random_y:random_y+axisSizeclump] = percentPurityOfDS
-          n += 1
-      n=0
-      numClumpsMid = int(numClumps*portionMiddle)
-      while n < numClumpsMid:
-        random_x = random.randint(0,middle.shape[0]-axisSizeclump)
-        random_z = random.randint(0,middle.shape[1]-axisSizeclump)
-        random_y = random.randint(0,middle.shape[2]-axisSizeclump)
-        section = middle[random_x:random_x+axisSizeclump,random_z:random_z+axisSizeclump,random_y:random_y+axisSizeclump]
-        if any(percentPurityOfDS in sublist for sublist in section):
-          pass
-        else:
-          middle[random_x:random_x+axisSizeclump,random_z:random_z+axisSizeclump,random_y:random_y+axisSizeclump] = percentPurityOfDS
-          n += 1
-      n=0
-      numClumpsBot = int(numClumps*portionBottom)
-      while n < numClumpsBot:
-        random_x = random.randint(0,bottom.shape[0]-axisSizeclump)
-        random_z = random.randint(0,bottom.shape[1]-axisSizeclump)
-        random_y = random.randint(0,bottom.shape[2]-axisSizeclump)
-        section = bottom[random_x:random_x+axisSizeclump,random_z:random_z+axisSizeclump,random_y:random_y+axisSizeclump]
-        if any(percentPurityOfDS in sublist for sublist in section):
-          pass
-        else:
-          bottom[random_x:random_x+axisSizeclump,random_z:random_z+axisSizeclump,random_y:random_y+axisSizeclump] = percentPurityOfDS
-          n += 1
+  clumpedParticles = int(numDSparticles*(clumpiness/10))
+    numParticlesPerClump = int(clumpSize/particleSize)
+    axisSizeclump = int(numParticlesPerClump**(1/3))
+    if axisSizeclump > bottom.shape[2]:
+      st.warning("Clump size too big in relation to blender for correct sampling, please reduce clump size or increase blender size.")
+      return
+    numClumps = int(clumpedParticles/numParticlesPerClump)
+    #disperse clumps
+    n = 0
+    numClumpsTop = int(numClumps*portionTop)
+    while n < numClumpsTop:
+      random_x = random.randint(0,top.shape[0]-axisSizeclump)
+      random_z = random.randint(0,top.shape[1]-axisSizeclump)
+      random_y = random.randint(0,top.shape[2]-axisSizeclump)
+      section = top[random_x:random_x+axisSizeclump,random_z:random_z+axisSizeclump,random_y:random_y+axisSizeclump]
+      if any(percentPurityOfDS in sublist for sublist in section):
+        pass
+      else:
+        top[random_x:random_x+axisSizeclump,random_z:random_z+axisSizeclump,random_y:random_y+axisSizeclump] = percentPurityOfDS
+        n += 1
+    n=0
+    numClumpsMid = int(numClumps*portionMiddle)
+    while n < numClumpsMid:
+      random_x = random.randint(0,middle.shape[0]-axisSizeclump)
+      random_z = random.randint(0,middle.shape[1]-axisSizeclump)
+      random_y = random.randint(0,middle.shape[2]-axisSizeclump)
+      section = middle[random_x:random_x+axisSizeclump,random_z:random_z+axisSizeclump,random_y:random_y+axisSizeclump]
+      if any(percentPurityOfDS in sublist for sublist in section):
+        pass
+      else:
+        middle[random_x:random_x+axisSizeclump,random_z:random_z+axisSizeclump,random_y:random_y+axisSizeclump] = percentPurityOfDS
+        n += 1
+    n=0
+    numClumpsBot = int(numClumps*portionBottom)
+    while n < numClumpsBot:
+      random_x = random.randint(0,bottom.shape[0]-axisSizeclump)
+      random_z = random.randint(0,bottom.shape[1]-axisSizeclump)
+      random_y = random.randint(0,bottom.shape[2]-axisSizeclump)
+      section = bottom[random_x:random_x+axisSizeclump,random_z:random_z+axisSizeclump,random_y:random_y+axisSizeclump]
+      if any(percentPurityOfDS in sublist for sublist in section):
+        pass
+      else:
+        bottom[random_x:random_x+axisSizeclump,random_z:random_z+axisSizeclump,random_y:random_y+axisSizeclump] = percentPurityOfDS
+        n += 1
 
-      remainingParticles = (numDStop+numDSmid+numDSbot) - clumpedParticles
-      remainderTop = int(remainingParticles*portionTop)
-      remainderMid = int(remainingParticles*portionMiddle)
-      reminderBot = int(remainingParticles*portionBottom)
+    remainingParticles = (numDStop+numDSmid+numDSbot) - clumpedParticles
+    remainderTop = int(remainingParticles*portionTop)
+    remainderMid = int(remainingParticles*portionMiddle)
+    reminderBot = int(remainingParticles*portionBottom)
 
-      i=0
-      while i < remainderTop:
-        random_x = random.randint(0,top.shape[0]-1)
-        random_z = random.randint(0,top.shape[1]-1)
-        random_y = random.randint(0,top.shape[2]-1)
-        if top[random_x,random_z,random_y] == 0.00001:
-          top[random_x,random_z,random_y] = percentPurityOfDS
-          i += 1
-        else:
-          pass
-      i=0
-      while i < remainderMid:
-        random_x = random.randint(0,middle.shape[0]-1)
-        random_z = random.randint(0,middle.shape[1]-1)
-        random_y = random.randint(0,middle.shape[2]-1)
-        if middle[random_x,random_z,random_y] == 0.00001:
-          middle[random_x,random_z,random_y] = percentPurityOfDS
-          i += 1
-        else:
-          pass
-      i=0
-      while i < reminderBot:
-        random_x = random.randint(0,bottom.shape[0]-1)
-        random_z = random.randint(0,bottom.shape[1]-1)
-        random_y = random.randint(0,bottom.shape[2]-1)
-        if bottom[random_x,random_z,random_y] == 0.00001:
-          bottom[random_x,random_z,random_y] = percentPurityOfDS
-          i += 1
-        else:
-          pass
+    i=0
+    while i < remainderTop:
+      random_x = random.randint(0,top.shape[0]-1)
+      random_z = random.randint(0,top.shape[1]-1)
+      random_y = random.randint(0,top.shape[2]-1)
+      if top[random_x,random_z,random_y] == 0.00001:
+        top[random_x,random_z,random_y] = percentPurityOfDS
+        i += 1
+      else:
+        pass
+    i=0
+    while i < remainderMid:
+      random_x = random.randint(0,middle.shape[0]-1)
+      random_z = random.randint(0,middle.shape[1]-1)
+      random_y = random.randint(0,middle.shape[2]-1)
+      if middle[random_x,random_z,random_y] == 0.00001:
+        middle[random_x,random_z,random_y] = percentPurityOfDS
+        i += 1
+      else:
+        pass
+    i=0
+    while i < reminderBot:
+      random_x = random.randint(0,bottom.shape[0]-1)
+      random_z = random.randint(0,bottom.shape[1]-1)
+      random_y = random.randint(0,bottom.shape[2]-1)
+      if bottom[random_x,random_z,random_y] == 0.00001:
+        bottom[random_x,random_z,random_y] = percentPurityOfDS
+        i += 1
+      else:
+        pass
       
   ##############################################################################################
   #sampling
