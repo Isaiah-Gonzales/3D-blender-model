@@ -79,7 +79,7 @@ with tab1:
                   distribution= distribution,
                   clumpiness=percentClumps/10,
                   clumpSize=sizeClumps,
-                  particleSize = particleSize)
+                  particleSize = particleSize))
           i += 1
         progbar.empty()
       else:
@@ -92,7 +92,7 @@ with tab1:
                   blenderSize=blenderSize, 
                   fillRatio=fillRatio,
                   distribution= distribution,
-                  particleSize = particleSize)
+                  particleSize = particleSize))
           i += 1
         progbar.empty()
           
