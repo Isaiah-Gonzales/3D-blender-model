@@ -8,7 +8,7 @@ import random
 import math
 import pandas as pd
 
-def blender3D(blenderSize, fillRatio,thiefSize, distribution, DL=20, particleSize=100,percentPurityOfDS=100, clumpiness=0, clumpSize=1000):
+def blender3D(blenderSize, fillRatio,thiefSize, distribution, DL=20, particleSize=100,percentPurityOfDS=100, clumpiness=0, clumpSize=1000, verbose = True):
   global placeholderaxes 
   global blender 
   global filledspace
@@ -342,13 +342,14 @@ def blender3D(blenderSize, fillRatio,thiefSize, distribution, DL=20, particleSiz
     percentAssays.append(round(assay,2))
   
   #display results table
-  positions = ["top-1", "top-2", "top-3", "top-4",
-               "mid-1", "mid-2", "mid-3", "mid-4",
-               "bot-1", "bot-2", "bot-3", "bot-4"]
-  data1 = {'positions': positions,
-           'assay (%)': percentAssays}
-  df = pd.DataFrame(data1)
-  st.dataframe(data=df)
+  if verbose == True:
+    positions = ["top-1", "top-2", "top-3", "top-4",
+                 "mid-1", "mid-2", "mid-3", "mid-4",
+                 "bot-1", "bot-2", "bot-3", "bot-4"]
+    data1 = {'positions': positions,
+             'assay (%)': percentAssays}
+    df = pd.DataFrame(data1)
+    st.dataframe(data=df)
   return percentAssays
   
 def displayBlender(placeholderaxes, blender,filledspace, top, middle, bottom, TopSamplingArray, MidSamplingArray, BotSamplingArray, particleSize, distribution, percentPurityOfDS):
