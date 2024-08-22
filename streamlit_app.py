@@ -13,8 +13,8 @@ with tab1:
   model_type = st.sidebar.selectbox("Would you like to simulate one blender or multiple blenders", ["-","single blender","multiple blenders"], help ="**Single:** This will simulate one blender, and return *individual* assays of BU samples extracted. **Multiple:** This will simulate multiple blenders, and return *mean* assays, this can be useful to understand probabilities. ") 
   
   if model_type != "-":
-    distribution = st.sidebar.selectbox("Please choose how you wish the powder to be distributed in the blender", ["unmixed", "random", "uniform", "poor"])
-    blenderSize = st.sidebar.number_input("Size of blender (mL)", min_value=5, max_value=100000)
+    distribution = st.sidebar.selectbox("Please choose how you wish the powder to be distributed in the blender", ["unmixed", "random", "poor"])
+    blenderSize = st.sidebar.number_input("Size of blender (mL)", min_value=500, max_value=500000)
     advanced_options = st.sidebar.expander("Advanced Options")
     with advanced_options:
       thiefSize = st.slider("Size of sample thief (mL)", min_value = 1, max_value = 10, step =1)
