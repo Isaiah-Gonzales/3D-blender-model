@@ -267,7 +267,7 @@ def blender3D(blenderSize, fillRatio,thiefSize, distribution, DL=20, particleSiz
   st.write(bottom.shape[2])
   if thiefDimensions > bottom.shape[2]:
     st.warning("thief size too large in comparison to blender. Please increase blender size or decrease thief size")
-    return
+    #return
   
   topfirststart = slimmer*4
   topfirstend = (slimmer*4) + thiefDimensions
