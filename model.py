@@ -371,7 +371,7 @@ def displayBlender(placeholderaxes, blender,filledspace, top, middle, bottom, To
   ax.set_ylabel(str(dimensionsinmL) + " cm")
   #ax.set_zticks([])
   ax.set_zlabel(str(dimensionsinmL) + " cm")
-  progbar.progress(0.25, text = "Plot 1 of 3 generated")
+  progbar.progress(0.25, text = "Generating plot 1 of 3")
   
   ##############################################################################################
   ax2 = fig.add_subplot(1, 3, 2, projection='3d')
@@ -393,7 +393,7 @@ def displayBlender(placeholderaxes, blender,filledspace, top, middle, bottom, To
   ax2.set_xlabel("tick marks show particle count equivalent to: " + str(dimensionsinmL) + " cm")
   ax2.set_ylabel(str(dimensionsinmL) + " cm")
   ax2.set_zlabel(str(dimensionsinmL) + " cm")
-  progbar.progress(0.50, text = "Plot 2 of 3 generated")
+  progbar.progress(0.50, text = "Generating plot 2 of 3")
   
   ##############################################################################################
   ax3 = fig.add_subplot(1, 3, 3, projection='3d')
@@ -412,7 +412,7 @@ def displayBlender(placeholderaxes, blender,filledspace, top, middle, bottom, To
   ax3.set_ylabel(str(dimensionsinmL) + " cm")
   ax3.set_zlabel(str(dimensionsinmL) + " cm")    
 
-  progbar.progress(0.75, text = "Plot 3 of 3 generated")
+  progbar.progress(0.75, text = "Generating plot 3 of 3")
 
   ##############################################################################################
   plt.tight_layout()
