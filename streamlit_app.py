@@ -70,29 +70,29 @@ with tab1:
       if distribution == "poor":
         while i < numLoops:
           progbar.progress(i/numLoops, text = "simulation " + str(i) + " of " + str(numLoops))
-          results.append(blender3D(thiefSize=thiefSize, 
-                    percentPurityOfDS=percentPurityOfDS,
-                    DL=DL, 
-                    blenderSize=blenderSize, 
-                    fillRatio=fillRatio,
-                    distribution= distribution,
-                    clumpiness=percentClumps/10,
-                    clumpSize=sizeClumps,
-                    verbose=False,
-                    particleSize = particleSize)
+          results.append(blender3D(
+                  thiefSize=thiefSize, 
+                  percentPurityOfDS=percentPurityOfDS,
+                  DL=DL, 
+                  blenderSize=blenderSize, 
+                  fillRatio=fillRatio,
+                  distribution= distribution,
+                  clumpiness=percentClumps/10,
+                  clumpSize=sizeClumps,
+                  particleSize = particleSize)
           i += 1
         progbar.empty()
       else:
         while i < numLoops:
           progbar.progress(i/numLoops, text = "simulation " + str(i) + " of " + str(numLoops))
-          results.append(blender3D(thiefSize=thiefSize, 
-                    percentPurityOfDS=percentPurityOfDS,
-                    DL=DL, 
-                    blenderSize=blenderSize, 
-                    fillRatio=fillRatio,
-                    distribution= distribution
-                    verbose=False,
-                    particleSize = particleSize)
+          results.append(blender3D(
+                  thiefSize=thiefSize, 
+                  percentPurityOfDS=percentPurityOfDS,
+                  DL=DL, 
+                  blenderSize=blenderSize, 
+                  fillRatio=fillRatio,
+                  distribution= distribution,
+                  particleSize = particleSize)
           i += 1
         progbar.empty()
           
