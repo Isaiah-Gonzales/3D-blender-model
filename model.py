@@ -263,9 +263,9 @@ def blender3D(blenderSize, fillRatio,thiefSize, distribution, DL=20, particleSiz
   numSamples = 4
   currentSample = 0
   thiefDimensions = int((thiefSize/particlesizecm)**(1/3))
+  st.write(thiefDimensions)
+  st.write(bottom.shape[2])
   if thiefDimensions > bottom.shape[2]:
-    st.write(thiefDimensions)
-    st.write(bottom.shape[2])
     st.warning("thief size too large in comparison to blender. Please increase blender size or decrease thief size")
     return
   
