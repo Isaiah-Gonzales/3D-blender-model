@@ -1,10 +1,11 @@
 from model import *
 import streamlit as st
 
+st.image("3D Blender.png")
+
 tab1, tab2, tab3 = st.tabs(["model", "example", "how it works"])
 
 with tab1:
-  st.image("3D Blender.png")
   st.title("3D BU Statistical Model")
   st.write("Hi and welcome, this tool creates a model of a blender depending on your inputs. It's recommended to look at the :blue-background[example] tab if this is your first time.")
   st.write("If you have any feedback, please reach out to either **Isaiah Gonzales** or **Rajarshi Sengupta**.")
