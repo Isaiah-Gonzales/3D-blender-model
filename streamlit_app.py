@@ -43,7 +43,7 @@ with tab1:
                   percentPurityOfDS=percentPurityOfDS,
                   DL=DL, 
                   blenderSize=blenderSize, 
-                  fillRatio=fillRatio/100,
+                  fillRatio=fillRatio,
                   distribution= distribution,
                   clumpiness=percentClumps/10,
                   clumpSize=sizeClumps,
