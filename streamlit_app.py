@@ -58,9 +58,9 @@ with tab1:
                   distribution= distribution,
                   particleSize = particleSize)
 
-      if st.session_state['button'] == True:
-        if st.button("Visualize my model (this can take a while)"):
-          displayBlender(placeholderaxes, blender,filledspace, top, middle, bottom, TopSamplingArray, MidSamplingArray, BotSamplingArray, particleSize, distribution, percentPurityOfDS)
+    if st.session_state['button'] == True:
+      if st.button("Visualize my model (this can take a while)"):
+        displayBlender(placeholderaxes, blender,filledspace, top, middle, bottom, TopSamplingArray, MidSamplingArray, BotSamplingArray, particleSize, distribution, percentPurityOfDS)
   
     if model_type == "multiple blenders":
       results = []
