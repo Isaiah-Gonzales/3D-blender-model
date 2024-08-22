@@ -171,7 +171,8 @@ def blender3D(blenderSize, fillRatio,thiefSize, distribution, DL=20, particleSiz
     bottom = flattenedbottom.reshape(bottom.shape)
     
   ##############################################################################################
-  clumpedParticles = int(numDSparticles*(clumpiness/10))
+  if distribution == "poor":
+    clumpedParticles = int(numDSparticles*(clumpiness/10))
     numParticlesPerClump = int(clumpSize/particleSize)
     axisSizeclump = int(numParticlesPerClump**(1/3))
     if axisSizeclump > bottom.shape[2]:
@@ -215,12 +216,12 @@ def blender3D(blenderSize, fillRatio,thiefSize, distribution, DL=20, particleSiz
       else:
         bottom[random_x:random_x+axisSizeclump,random_z:random_z+axisSizeclump,random_y:random_y+axisSizeclump] = percentPurityOfDS
         n += 1
-
+  
     remainingParticles = (numDStop+numDSmid+numDSbot) - clumpedParticles
     remainderTop = int(remainingParticles*portionTop)
     remainderMid = int(remainingParticles*portionMiddle)
     reminderBot = int(remainingParticles*portionBottom)
-
+  
     i=0
     while i < remainderTop:
       random_x = random.randint(0,top.shape[0]-1)
