@@ -1,6 +1,5 @@
 from model import *
 import streamlit as st
-import SessionState
 
 tab1, tab2, tab3 = st.tabs(["model", "example", "how it works"])
 
@@ -13,10 +12,9 @@ with tab1:
   st.sidebar.write("**Input simulation parameters here**")
   model_type = st.sidebar.selectbox("Would you like to simulate one blender or multiple blenders", ["-","single run","multiple runs"], help ="**Single:** This will simulate one blender, and return *individual* assays of BU samples extracted. **Multiple:** This will simulate multiple blenders, and return *mean* assays, this can be useful to understand probabilities. ") 
 
-  runSimButton = st.empty()
-  runVisButton = st.empty()
-
-  ss = SessionState.get(runSimButton = False)
+  runSimButton = st.button("Get my sampling results.")
+  if st.session_state.get('button') != True:
+    st.session_state['button'] = runSimButton
   
   if model_type != "-":
     distribution = st.sidebar.selectbox("Please choose how you wish the powder to be distributed in the blender", ["unmixed", "random", "uniform", "poor"])
@@ -37,7 +35,7 @@ with tab1:
   if model_type == "multiple runs":
     numLoops = int(st.sidebar.number_input("How many simulations would you like to perform and average", min_value = 1, max_value = 500))
     
-  if st.sidebar.runSimButton.button("Run my simulation"):
+  if st.sidebar.runSimButton:
     if model_type == "single run":
       if distribution == "poor":
         blender3D(
@@ -60,8 +58,8 @@ with tab1:
                   distribution= distribution,
                   particleSize = particleSize)
 
-  if ss.RunSimButton:
-    if RunVisButton.button("Visualize my model (this can take a while)"):
+  if st.session_state['button'] == True:
+    if st.button("Visualize my model (this can take a while)"):
       displayBlender(placeholderaxes, blender,filledspace, top, middle, bottom, TopSamplingArray, MidSamplingArray, BotSamplingArray, particleSize, distribution, percentPurityOfDS)
   
     # if model_type == "multiple runs":
