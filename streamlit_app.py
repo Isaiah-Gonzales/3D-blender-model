@@ -35,7 +35,7 @@ with tab1:
   if st.session_state.get('button') != True:
     st.session_state['button'] = runSimButton
   
-  if st.runSimButton:
+  if runSimButton:
     if model_type == "single run":
       if distribution == "poor":
         blender3D(
