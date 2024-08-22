@@ -349,6 +349,7 @@ def blender3D(blenderSize, fillRatio,thiefSize, distribution, DL=20, particleSiz
            'assay (%)': percentAssays}
   df = pd.DataFrame(data1)
   st.dataframe(data=df)
+  return percentAssays
   
 def displayBlender(placeholderaxes, blender,filledspace, top, middle, bottom, TopSamplingArray, MidSamplingArray, BotSamplingArray, particleSize, distribution, percentPurityOfDS):
   progbar = st.progress(0.0, text = "Initializing...")
