@@ -1,7 +1,7 @@
 from model import *
 import streamlit as st
 
-tab1 = st.tabs(["model"])
+tab1, tab2, tab3 = st.tabs(["model", "example", "how it works"])
 
 with tab1:
   st.title("3D BU Statistical Model")
@@ -133,3 +133,7 @@ with tab1:
                             "Value": values} 
       multipleRundf = pd.DataFrame(multipleRunResults)
       st.dataframe(multipleRundf)
+with tab2:
+  st.write("in progress")
+with tab3:
+  st.write("in progress")
