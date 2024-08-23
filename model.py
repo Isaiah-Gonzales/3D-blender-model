@@ -69,20 +69,6 @@ def blender3D(blenderSize, fillRatio,thiefSize, distribution, DL=20, particleSiz
   top = filledspace[:,:,firstStepEnd:]
   middle = filledspace[slimmer*2:placeholderaxes-(slimmer*2), slimmer*2:placeholderaxes-(slimmer*2),thirdStepEnd:secondStepEnd]
   bottom = filledspace[slimmer*4:placeholderaxes-(slimmer*4), slimmer*4:placeholderaxes-(slimmer*4),0:fourthStepEnd]
-
-  ##############################################################################################
-  #begin with all excipients
-  top[:,:,:] = 0.00001 #close enough to zero where it won't affect simulation, but will still be displayed
-  middle[:,:,:] = 0.00001
-  bottom[:,:,:] = 0.00001
-
-  numDSparticles = int(filledparticles * (DL/100))
-  numDStop = int(np.prod(top.shape)*(DL/100))
-  numDSmid = int(np.prod(middle.shape)*(DL/100))
-  numDSbot = int(np.prod(bottom.shape)*(DL/100))
-  portionTop = numDStop/numDSparticles
-  portionMiddle = numDSmid/numDSparticles
-  portionBottom = numDSbot/numDSparticles
   
   ##############################################################################################
   #now distribute DS
@@ -95,7 +81,20 @@ def blender3D(blenderSize, fillRatio,thiefSize, distribution, DL=20, particleSiz
     middle[:,:,:] = 0.00001
     bottom[:,:,:] = 0.00001
   else:
-  ##############################################################################################
+    ##############################################################################################
+    #begin with all excipients
+    top[:,:,:] = 0.00001 #close enough to zero where it won't affect simulation, but will still be displayed
+    middle[:,:,:] = 0.00001
+    bottom[:,:,:] = 0.00001
+  
+    numDSparticles = int(filledparticles * (DL/100))
+    numDStop = int(np.prod(top.shape)*(DL/100))
+    numDSmid = int(np.prod(middle.shape)*(DL/100))
+    numDSbot = int(np.prod(bottom.shape)*(DL/100))
+    portionTop = numDStop/numDSparticles
+    portionMiddle = numDSmid/numDSparticles
+    portionBottom = numDSbot/numDSparticles
+    ##############################################################################################
     if distribution == "unmixed":
       DSlevel = int(filler*(DL/100))
       if DSlevel > firstStepEnd:
