@@ -1,7 +1,7 @@
 from model import *
 import streamlit as st
 
-tab1, tab2, tab3 = st.tabs(["model"])
+tab1 = st.tabs(["model"])
 
 with tab1:
   st.title("3D BU Statistical Model")
