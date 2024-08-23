@@ -10,7 +10,7 @@ with tab1:
   st.write("If you have any feedback, please reach out to either **Isaiah Gonzales** or **Rajarshi Sengupta**.")
            
   st.sidebar.write("**Input simulation parameters here**")
-  model_type = st.sidebar.selectbox("Would you like to simulate one blender or multiple blenders", ["-","single blender","multiple blenders"], help ="**Single:** This will simulate one blender, and return *individual* assays of BU samples extracted. **Multiple:** This will simulate multiple blenders, and return *mean* assays, this can be useful to understand probabilities. ") 
+  model_type = st.sidebar.selectbox("Would you like to perform a single experiment or perform experiments in replicate?", ["-","single blender","replicate"], help ="**Single:** This will simulate one blender, and return *individual* assays of BU samples extracted. **Replicate:** This will simulate multiple BU experiments, and return *mean* assays, this can be useful to understand probabilities. ") 
   
   if model_type != "-":
     distribution = st.sidebar.selectbox("Please choose how you wish the powder to be distributed in the blender", ["unmixed", "random", "poor"])
@@ -66,7 +66,7 @@ with tab1:
       if st.button("Visualize my model (this can take a while)"):
         displayBlender(placeholderaxes, blender,filledspace, top, middle, bottom, TopSamplingArray, MidSamplingArray, BotSamplingArray, particleSize, distribution, percentPurityOfDS)
   if runSimButton:
-    if model_type == "multiple blenders":
+    if model_type == "replicate":
       results = []
       meanResults = []
       i = 0
