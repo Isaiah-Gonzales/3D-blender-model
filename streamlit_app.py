@@ -19,14 +19,14 @@ with tab1:
     advanced_options = st.sidebar.expander("Advanced Options")
     with advanced_options:
       thiefSize = st.slider("Size of sample thief (mL)", min_value = 1, max_value = 10, step =1)
-      percentPurityOfDS = st.slider("Purity of DS (%)", min_value= 0, max_value = 110, value = 100, step=10)
-      DL = st.slider("Blend drug load (%)", min_value = 0, max_value = 100, value = 20, step=10)
+      percentPurityOfDS = st.slider("Purity of DS (%)", min_value= 0, max_value = 110, value = 100, step=1)
+      DL = st.slider("Blend drug load (%)", min_value = 0, max_value = 100, value = 20, step=1)
       fillRatio = st.slider("Fill Ratio", min_value=0.4, max_value=0.9, step= 0.1, value=0.5, help="What ratio of the blenders total volume is filled with powder?")
       particleSize = st.slider("Particle Size", min_value = 50, max_value=200, step = 10, value = 100)
   
     if distribution == "poor":
       with advanced_options:
-        percentClumps = st.slider("What percent of DS particles would you like clumped?", min_value = 1,value=50, step =10)
+        percentClumps = st.slider("What percent of DS particles would you like clumped?", min_value = 1,value=50, step =1)
         sizeClumps = st.number_input("Size of DS clumps (microns)", min_value = particleSize,value=1000, max_value =10000)
     
     if model_type == "replicate":
