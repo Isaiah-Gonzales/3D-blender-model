@@ -13,7 +13,7 @@ with tab1:
   model_type = st.sidebar.selectbox("Would you like to perform a single experiment or perform experiments in replicate?", ["-","single blender","replicate"], help ="**Single:** This will simulate one blender, and return *individual* assays of BU samples extracted. **Replicate:** This will simulate multiple BU experiments, and return *mean* assays, this can be useful to understand probabilities. ") 
   
   if model_type != "-":
-    distribution = st.sidebar.selectbox("Please choose how you wish the powder to be distributed in the blender", ["unmixed", "random", "poor"])
+    distribution = st.sidebar.selectbox("Please choose how you wish the powder to be distributed in the blender", ["random", "poor","unmixed"])
     blenderSize = st.sidebar.number_input("Size of blender (mL)", min_value=500, max_value=500000)
     sampling = st.sidebar.selectbox("What kind of sampling would you like to perform?", ["standard", "random"], help="**Standard** sampling will mimic what occurs in the lab with a sample thief. **Random** sampling will grab samples from random locations the top, middle, and bottom sections.")
     advanced_options = st.sidebar.expander("Advanced Options")
