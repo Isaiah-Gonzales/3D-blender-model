@@ -28,7 +28,7 @@ with tab1:
         percentClumps = st.slider("What percent of DS particles would you like clumped?", min_value = 1,value=50, step =10)
         sizeClumps = st.number_input("Size of DS clumps (microns)", min_value = 100,value=1000, max_value =10000)
     
-    if model_type == "multiple runs":
+    if model_type == "multiple blenders":
       numLoops = int(st.sidebar.number_input("How many simulations would you like to perform and average", min_value = 1, max_value = 500))
 
   runSimButton = st.sidebar.button("Get my sampling results.")
