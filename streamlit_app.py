@@ -137,6 +137,7 @@ with tab1:
                             "Value": values} 
       multipleRundf = pd.DataFrame(multipleRunResults)
       st.dataframe(multipleRundf)
+      st.write("Note: box and whisker plot may omit or identify values as outliers based on their distance from the mean (1.5 IQR rule). Tabular data is a more 'true' source of values.")
 with tab2:
   st.write("in progress")
 with tab3:
