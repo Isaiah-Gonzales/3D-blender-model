@@ -109,20 +109,21 @@ with tab1:
         meanResults.append(np.mean(result))
         for val in result:
           flattenedResults.append(val)
-  
-      
-      figure, ax = plt.subplots(figsize=(10,10))
-      viz = ax.boxplot(meanResults)
-      plt.title("Spread of mean assays for simulated blender with distribution = " + str(distribution) + ". Y-axis fit to data")
-      plt.ylabel("Mean Assay (%)")
-      st.pyplot(figure)
 
-      figure2, ax2 = plt.subplots(figsize=(10,10))
-      viz = ax2.boxplot(meanResults)
-      plt.title("Spread of mean assays for simulated blender with distribution = " + str(distribution) + ". Standardized y-axes (so you can compare plots more easily)")
-      plt.ylim((0,150))
-      plt.ylabel("Mean Assay (%)")
-      st.pyplot(figure2)
+      fitView, standardView = st.tabs["Y-axis fit to data", "Standardized Y-axis"]
+      with fitView:
+        figure, ax = plt.subplots(figsize=(10,10))
+        viz = ax.boxplot(meanResults)
+        plt.title("Spread of mean assays for simulated blender with distribution = " + str(distribution) + ". Y-axis fit to data")
+        plt.ylabel("Mean Assay (%)")
+        st.pyplot(figure)
+      with standardView:
+        figure2, ax2 = plt.subplots(figsize=(10,10))
+        viz = ax2.boxplot(meanResults)
+        plt.title("Spread of mean assays for simulated blender with distribution = " + str(distribution) + ". Standardized y-axes (so you can compare plots more easily)")
+        plt.ylim((0,150))
+        plt.ylabel("Mean Assay (%)")
+        st.pyplot(figure2)
   
       #show results table
       metrics = ["Min. Average Assay Observed (%)", 
