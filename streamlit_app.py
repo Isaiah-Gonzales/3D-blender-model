@@ -30,7 +30,7 @@ with tab1:
         sizeClumps = st.number_input("Size of DS clumps (microns)", min_value = particleSize,value=1000, max_value =10000)
     
     if model_type == "multiple blenders":
-      numLoops = int(st.sidebar.number_input("How many simulations would you like to perform and average", min_value = 1, max_value = 500))
+      numLoops = int(st.sidebar.number_input("How many replicates would you like to perform and average", min_value = 1, max_value = 500))
 
   runSimButton = st.sidebar.button("Get my sampling results.")
   if st.session_state.get('button') != True:
@@ -120,12 +120,16 @@ with tab1:
       #show results table
       metrics = ["Min. Average Assay Observed (%)", 
                  "Max. Average Assay Observed (%)", 
-                 "Standard Deviation", 
+                 "Mean Average Assay (%)",
+                 "Standard Deviation",
+                 "RSD (%)",
                  "Min. Individual Assay Observed (%)", 
                  "Max. Individual Assay Observed (%)"]
       values = [round(min(meanResults),2), 
                 round(max(meanResults),2), 
+                round(np.mean(meanResults),2),
                 round(np.std(meanResults),2),
+                round((np.std(meanResults)/np.mean(meanResults))*100,2),
                 round(min(flattenedResults),2),
                 round(max(flattenedResults),2)]
       
