@@ -15,7 +15,7 @@ with tab1:
   if model_type != "-":
     distribution = st.sidebar.selectbox("Please choose how you wish the powder to be distributed in the blender", ["random", "poor","unmixed"])
     blenderSize = st.sidebar.number_input("Size of blender (mL)", min_value=500, max_value=500000)
-    sampling = st.sidebar.selectbox("What kind of sampling would you like to perform?", ["standard", "random"], help="**Standard** sampling will mimic what occurs in the lab with a sample thief.  \n**Random** sampling will grab samples from random locations the top, middle, and bottom sections.")
+    sampling = st.sidebar.selectbox("What kind of sampling would you like to perform?", ["standard", "random"], help="**Standard** sampling will mimic what occurs in the lab with a sample thief.  \n**Random** sampling will grab samples from random locations in the top, middle, and bottom sections.")
     advanced_options = st.sidebar.expander("Advanced Options")
     with advanced_options:
       thiefSize = st.slider("Size of sample thief (mL)", min_value = 1, max_value = 10, step =1)
