@@ -8,7 +8,7 @@ import random
 import math
 import pandas as pd
 
-def blender3D(blenderSize, fillRatio,thiefSize, distribution, DL=20, particleSize=100,percentPurityOfDS=100, clumpiness=0, clumpSize=1000, verbose = True):
+def blender3D(blenderSize, fillRatio,thiefSize, distribution, DL=20, particleSize=100,percentPurityOfDS=100, clumpiness=0, clumpSize=1000, verbose = True, sampling="standard"):
   global placeholderaxes 
   global blender 
   global filledspace
@@ -86,172 +86,182 @@ def blender3D(blenderSize, fillRatio,thiefSize, distribution, DL=20, particleSiz
   
   ##############################################################################################
   #now distribute DS
-  if distribution == "unmixed":
-    DSlevel = int(filler*(DL/100))
-    if DSlevel > firstStepEnd:
-      bottom[:,:,:] = percentPurityOfDS
-      middle[:,:,:] = percentPurityOfDS
-      top[:,:,:(DSlevel-firstStepEnd)+1] = percentPurityOfDS
-    elif DSlevel > thirdStepEnd:
-      bottom[:,:,:] = percentPurityOfDS
-      if (DSlevel-secondStepEnd) < middle.shape[2]:
-        middle[:,:,:(DSlevel-thirdStepEnd)+1] = percentPurityOfDS
-      else:
-        middle[:,:,:] = percentPurityOfDS
-    else:
-      if (DSlevel-fourthStepEnd) < bottom.shape[2]:
-        bottom[:,:,:DSlevel+1] = percentPurityOfDS
-      else:
+  if DL == 100:
+    top[:,:,:] = percentPurityOfDS
+    middle[:,:,:] = percentPurityOfDS
+    bottom[:,:,:] = percentPurityOfDS
+  elif DL == 0:
+    top[:,:,:] = 0.00001
+    middle[:,:,:] = 0.00001
+    bottom[:,:,:] = 0.00001
+  else:
+  ##############################################################################################
+    if distribution == "unmixed":
+      DSlevel = int(filler*(DL/100))
+      if DSlevel > firstStepEnd:
         bottom[:,:,:] = percentPurityOfDS
-        
-  ##############################################################################################
-  if distribution == "random":
-    i = 0
-    while i < numDStop:
-      random_x = random.randint(0,top.shape[0]-1)
-      random_z = random.randint(0,top.shape[1]-1)
-      random_y = random.randint(0,top.shape[2]-1)
-      if top[random_x,random_z,random_y] == 0.00001:
-        top[random_x,random_z,random_y] = percentPurityOfDS
-        i += 1
+        middle[:,:,:] = percentPurityOfDS
+        top[:,:,:(DSlevel-firstStepEnd)+1] = percentPurityOfDS
+      elif DSlevel > thirdStepEnd:
+        bottom[:,:,:] = percentPurityOfDS
+        if (DSlevel-secondStepEnd) < middle.shape[2]:
+          middle[:,:,:(DSlevel-thirdStepEnd)+1] = percentPurityOfDS
+        else:
+          middle[:,:,:] = percentPurityOfDS
       else:
-        pass
-    i = 0
-    while i < numDSmid:
-      random_x = random.randint(0,middle.shape[0]-1)
-      random_z = random.randint(0,middle.shape[1]-1)
-      random_y = random.randint(0,middle.shape[2]-1)
-      if middle[random_x,random_z,random_y] == 0.00001:
-        middle[random_x,random_z,random_y] = percentPurityOfDS
-        i += 1
-      else:
-        pass
-    i = 0
-    while i < numDSbot:
-      random_x = random.randint(0,bottom.shape[0]-1)
-      random_z = random.randint(0,bottom.shape[1]-1)
-      random_y = random.randint(0,bottom.shape[2]-1)
-      if bottom[random_x,random_z,random_y] == 0.00001:
-        bottom[random_x,random_z,random_y] = percentPurityOfDS
-        i += 1
-      else:
-        pass
-    
-  ##############################################################################################
-  if distribution == "uniform":
-    frequencyofDS = int(100/DL)
-    flattenedtop = top.flatten()
-    i=0
-    while i < len(flattenedtop):
-      if i%frequencyofDS == 0:
-        flattenedtop[i] = percentPurityOfDS
-        i += 1
-      else:
-        i+=1
-    top = flattenedtop.reshape(top.shape)
-
-    flattenedmiddle = middle.flatten()
-    i=0
-    while i < len(flattenedmiddle):
-      if i%frequencyofDS == 0:
-        flattenedmiddle[i] = percentPurityOfDS
-        i += 1
-      else:
-        i+=1
-    middle = flattenedmiddle.reshape(middle.shape)
-
-    flattenedbottom = bottom.flatten()
-    i=0
-    while i < len(flattenedbottom):
-      if i%frequencyofDS == 0:
-        flattenedbottom[i] = percentPurityOfDS
-        i += 1
-      else:
-        i+=1
-    bottom = flattenedbottom.reshape(bottom.shape)
-    
-  ##############################################################################################
-  if distribution == "poor":
-    clumpedParticles = int(numDSparticles*(clumpiness/10))
-    numParticlesPerClump = int(clumpSize/particleSize)
-    axisSizeclump = int(numParticlesPerClump**(1/3))
-    if axisSizeclump > bottom.shape[2]:
-      st.warning("Clump size too big in relation to blender for correct sampling, please reduce clump size or increase blender size.")
-      return
-    numClumps = int(clumpedParticles/numParticlesPerClump)
-    #disperse clumps
-    n = 0
-    numClumpsTop = int(numClumps*portionTop)
-    while n < numClumpsTop:
-      random_x = random.randint(0,top.shape[0]-axisSizeclump)
-      random_z = random.randint(0,top.shape[1]-axisSizeclump)
-      random_y = random.randint(0,top.shape[2]-axisSizeclump)
-      section = top[random_x:random_x+axisSizeclump,random_z:random_z+axisSizeclump,random_y:random_y+axisSizeclump]
-      if any(percentPurityOfDS in sublist for sublist in section):
-        pass
-      else:
-        top[random_x:random_x+axisSizeclump,random_z:random_z+axisSizeclump,random_y:random_y+axisSizeclump] = percentPurityOfDS
-        n += 1
-    n=0
-    numClumpsMid = int(numClumps*portionMiddle)
-    while n < numClumpsMid:
-      random_x = random.randint(0,middle.shape[0]-axisSizeclump)
-      random_z = random.randint(0,middle.shape[1]-axisSizeclump)
-      random_y = random.randint(0,middle.shape[2]-axisSizeclump)
-      section = middle[random_x:random_x+axisSizeclump,random_z:random_z+axisSizeclump,random_y:random_y+axisSizeclump]
-      if any(percentPurityOfDS in sublist for sublist in section):
-        pass
-      else:
-        middle[random_x:random_x+axisSizeclump,random_z:random_z+axisSizeclump,random_y:random_y+axisSizeclump] = percentPurityOfDS
-        n += 1
-    n=0
-    numClumpsBot = int(numClumps*portionBottom)
-    while n < numClumpsBot:
-      random_x = random.randint(0,bottom.shape[0]-axisSizeclump)
-      random_z = random.randint(0,bottom.shape[1]-axisSizeclump)
-      random_y = random.randint(0,bottom.shape[2]-axisSizeclump)
-      section = bottom[random_x:random_x+axisSizeclump,random_z:random_z+axisSizeclump,random_y:random_y+axisSizeclump]
-      if any(percentPurityOfDS in sublist for sublist in section):
-        pass
-      else:
-        bottom[random_x:random_x+axisSizeclump,random_z:random_z+axisSizeclump,random_y:random_y+axisSizeclump] = percentPurityOfDS
-        n += 1
+        if (DSlevel-fourthStepEnd) < bottom.shape[2]:
+          bottom[:,:,:DSlevel+1] = percentPurityOfDS
+        else:
+          bottom[:,:,:] = percentPurityOfDS
+          
+    ##############################################################################################
+    if distribution == "random":
+      i = 0
+      while i < numDStop:
+        random_x = random.randint(0,top.shape[0]-1)
+        random_z = random.randint(0,top.shape[1]-1)
+        random_y = random.randint(0,top.shape[2]-1)
+        if top[random_x,random_z,random_y] == 0.00001:
+          top[random_x,random_z,random_y] = percentPurityOfDS
+          i += 1
+        else:
+          pass
+      i = 0
+      while i < numDSmid:
+        random_x = random.randint(0,middle.shape[0]-1)
+        random_z = random.randint(0,middle.shape[1]-1)
+        random_y = random.randint(0,middle.shape[2]-1)
+        if middle[random_x,random_z,random_y] == 0.00001:
+          middle[random_x,random_z,random_y] = percentPurityOfDS
+          i += 1
+        else:
+          pass
+      i = 0
+      while i < numDSbot:
+        random_x = random.randint(0,bottom.shape[0]-1)
+        random_z = random.randint(0,bottom.shape[1]-1)
+        random_y = random.randint(0,bottom.shape[2]-1)
+        if bottom[random_x,random_z,random_y] == 0.00001:
+          bottom[random_x,random_z,random_y] = percentPurityOfDS
+          i += 1
+        else:
+          pass
+      
+    ##############################################################################################
+    if distribution == "uniform":
+      frequencyofDS = int(100/DL)
+      flattenedtop = top.flatten()
+      i=0
+      while i < len(flattenedtop):
+        if i%frequencyofDS == 0:
+          flattenedtop[i] = percentPurityOfDS
+          i += 1
+        else:
+          i+=1
+      top = flattenedtop.reshape(top.shape)
   
-    remainingParticles = (numDStop+numDSmid+numDSbot) - clumpedParticles
-    remainderTop = int(remainingParticles*portionTop)
-    remainderMid = int(remainingParticles*portionMiddle)
-    reminderBot = int(remainingParticles*portionBottom)
+      flattenedmiddle = middle.flatten()
+      i=0
+      while i < len(flattenedmiddle):
+        if i%frequencyofDS == 0:
+          flattenedmiddle[i] = percentPurityOfDS
+          i += 1
+        else:
+          i+=1
+      middle = flattenedmiddle.reshape(middle.shape)
   
-    i=0
-    while i < remainderTop:
-      random_x = random.randint(0,top.shape[0]-1)
-      random_z = random.randint(0,top.shape[1]-1)
-      random_y = random.randint(0,top.shape[2]-1)
-      if top[random_x,random_z,random_y] == 0.00001:
-        top[random_x,random_z,random_y] = percentPurityOfDS
-        i += 1
-      else:
-        pass
-    i=0
-    while i < remainderMid:
-      random_x = random.randint(0,middle.shape[0]-1)
-      random_z = random.randint(0,middle.shape[1]-1)
-      random_y = random.randint(0,middle.shape[2]-1)
-      if middle[random_x,random_z,random_y] == 0.00001:
-        middle[random_x,random_z,random_y] = percentPurityOfDS
-        i += 1
-      else:
-        pass
-    i=0
-    while i < reminderBot:
-      random_x = random.randint(0,bottom.shape[0]-1)
-      random_z = random.randint(0,bottom.shape[1]-1)
-      random_y = random.randint(0,bottom.shape[2]-1)
-      if bottom[random_x,random_z,random_y] == 0.00001:
-        bottom[random_x,random_z,random_y] = percentPurityOfDS
-        i += 1
-      else:
-        pass
+      flattenedbottom = bottom.flatten()
+      i=0
+      while i < len(flattenedbottom):
+        if i%frequencyofDS == 0:
+          flattenedbottom[i] = percentPurityOfDS
+          i += 1
+        else:
+          i+=1
+      bottom = flattenedbottom.reshape(bottom.shape)
+      
+    ##############################################################################################
+    if distribution == "poor":
+      clumpedParticles = int(numDSparticles*(clumpiness/10))
+      numParticlesPerClump = int(clumpSize/particleSize)
+      axisSizeclump = int(numParticlesPerClump**(1/3))
+      if axisSizeclump > bottom.shape[2]:
+        st.warning("Clump size too big in relation to blender for correct sampling, please reduce clump size or increase blender size.")
+        return
+      numClumps = int(clumpedParticles/numParticlesPerClump)
+      #disperse clumps
+      n = 0
+      numClumpsTop = int(numClumps*portionTop)
+      while n < numClumpsTop:
+        random_x = random.randint(0,top.shape[0]-axisSizeclump)
+        random_z = random.randint(0,top.shape[1]-axisSizeclump)
+        random_y = random.randint(0,top.shape[2]-axisSizeclump)
+        section = top[random_x:random_x+axisSizeclump,random_z:random_z+axisSizeclump,random_y:random_y+axisSizeclump]
+        if any(percentPurityOfDS in sublist for sublist in section):
+          pass
+        else:
+          top[random_x:random_x+axisSizeclump,random_z:random_z+axisSizeclump,random_y:random_y+axisSizeclump] = percentPurityOfDS
+          n += 1
+      n=0
+      numClumpsMid = int(numClumps*portionMiddle)
+      while n < numClumpsMid:
+        random_x = random.randint(0,middle.shape[0]-axisSizeclump)
+        random_z = random.randint(0,middle.shape[1]-axisSizeclump)
+        random_y = random.randint(0,middle.shape[2]-axisSizeclump)
+        section = middle[random_x:random_x+axisSizeclump,random_z:random_z+axisSizeclump,random_y:random_y+axisSizeclump]
+        if any(percentPurityOfDS in sublist for sublist in section):
+          pass
+        else:
+          middle[random_x:random_x+axisSizeclump,random_z:random_z+axisSizeclump,random_y:random_y+axisSizeclump] = percentPurityOfDS
+          n += 1
+      n=0
+      numClumpsBot = int(numClumps*portionBottom)
+      while n < numClumpsBot:
+        random_x = random.randint(0,bottom.shape[0]-axisSizeclump)
+        random_z = random.randint(0,bottom.shape[1]-axisSizeclump)
+        random_y = random.randint(0,bottom.shape[2]-axisSizeclump)
+        section = bottom[random_x:random_x+axisSizeclump,random_z:random_z+axisSizeclump,random_y:random_y+axisSizeclump]
+        if any(percentPurityOfDS in sublist for sublist in section):
+          pass
+        else:
+          bottom[random_x:random_x+axisSizeclump,random_z:random_z+axisSizeclump,random_y:random_y+axisSizeclump] = percentPurityOfDS
+          n += 1
+    
+      remainingParticles = (numDStop+numDSmid+numDSbot) - clumpedParticles
+      remainderTop = int(remainingParticles*portionTop)
+      remainderMid = int(remainingParticles*portionMiddle)
+      reminderBot = int(remainingParticles*portionBottom)
+    
+      i=0
+      while i < remainderTop:
+        random_x = random.randint(0,top.shape[0]-1)
+        random_z = random.randint(0,top.shape[1]-1)
+        random_y = random.randint(0,top.shape[2]-1)
+        if top[random_x,random_z,random_y] == 0.00001:
+          top[random_x,random_z,random_y] = percentPurityOfDS
+          i += 1
+        else:
+          pass
+      i=0
+      while i < remainderMid:
+        random_x = random.randint(0,middle.shape[0]-1)
+        random_z = random.randint(0,middle.shape[1]-1)
+        random_y = random.randint(0,middle.shape[2]-1)
+        if middle[random_x,random_z,random_y] == 0.00001:
+          middle[random_x,random_z,random_y] = percentPurityOfDS
+          i += 1
+        else:
+          pass
+      i=0
+      while i < reminderBot:
+        random_x = random.randint(0,bottom.shape[0]-1)
+        random_z = random.randint(0,bottom.shape[1]-1)
+        random_y = random.randint(0,bottom.shape[2]-1)
+        if bottom[random_x,random_z,random_y] == 0.00001:
+          bottom[random_x,random_z,random_y] = percentPurityOfDS
+          i += 1
+        else:
+          pass
       
   ##############################################################################################
   #sampling
@@ -263,66 +273,114 @@ def blender3D(blenderSize, fillRatio,thiefSize, distribution, DL=20, particleSiz
   if thiefDimensions > bottom.shape[2]:
     st.warning("thief size too large in comparison to blender. Please increase blender size or decrease thief size")
     #return
-  
-  topfirststart = slimmer*4
-  topfirstend = (slimmer*4) + thiefDimensions
-  topsecondstart = placeholderaxes-(thiefDimensions+(slimmer*4))
-  topsecondend = placeholderaxes-(slimmer*4)
+  #standard sampling
+  if sampling == "standard":
+    #define sampling locations for top section
+    topfirststart = slimmer*4
+    topfirstend = (slimmer*4) + thiefDimensions
+    topsecondstart = placeholderaxes-(thiefDimensions+(slimmer*4))
+    topsecondend = placeholderaxes-(slimmer*4)
 
-  midfirststart = slimmer*2
-  midfirstend = (slimmer*2) + thiefDimensions
-  midsecondstart = middle.shape[1]-(thiefDimensions+(slimmer*2))
-  midsecondend = middle.shape[1]-(slimmer*2)
+    #define sampling locations for middle section
+    midfirststart = slimmer*2
+    midfirstend = (slimmer*2) + thiefDimensions
+    midsecondstart = middle.shape[1]-(thiefDimensions+(slimmer*2))
+    midsecondend = middle.shape[1]-(slimmer*2)
 
-  botfirststart = 0
-  botfirstend = thiefDimensions
-  botsecondstart = bottom.shape[1]-(thiefDimensions)
-  botsecondend = bottom.shape[1]
+    #define sampling locations for bottom section
+    botfirststart = 0
+    botfirstend = thiefDimensions
+    botsecondstart = bottom.shape[1]-(thiefDimensions)
+    botsecondend = bottom.shape[1]
 
-  #top sampling
-  TopSamplingArray = np.zeros(top.shape)
-  #top-1
-  TopSamplingArray[topfirststart:topfirstend,topfirststart:topfirstend,top.shape[2]-thiefDimensions:top.shape[2]] = 1
-  results.append(np.mean(top[topfirststart:topfirstend,topfirststart:topfirstend,top.shape[2]-thiefDimensions:top.shape[2]]))
-  #top-2
-  TopSamplingArray[topsecondstart:topsecondend,topfirststart:topfirstend,top.shape[2]-thiefDimensions:top.shape[2]] = 1
-  results.append(np.mean(top[topsecondstart:topsecondend,topfirststart:topfirstend,top.shape[2]-thiefDimensions:top.shape[2]]))
-  #top-3
-  TopSamplingArray[topfirststart:topfirstend,topsecondstart:topsecondend,top.shape[2]-thiefDimensions:top.shape[2]] = 1
-  results.append(np.mean(top[topfirststart:topfirstend,topsecondstart:topsecondend,top.shape[2]-thiefDimensions:top.shape[2]]))
-  #top-4
-  TopSamplingArray[topsecondstart:topsecondend,topsecondstart:topsecondend,top.shape[2]-thiefDimensions:top.shape[2]] = 1
-  results.append(np.mean(top[topsecondstart:topsecondend,topsecondstart:topsecondend,top.shape[2]-thiefDimensions:top.shape[2]]))
-  
-  #middle sampling
-  MidSamplingArray = np.zeros(middle.shape)
-  #mid-1
-  MidSamplingArray[midfirststart:midfirstend,midfirststart:midfirstend,middle.shape[2]-thiefDimensions:middle.shape[2]] = 1
-  results.append(np.mean(middle[midfirststart:midfirstend,midfirststart:midfirstend,middle.shape[2]-thiefDimensions:middle.shape[2]]))
-  #mid-2
-  MidSamplingArray[midsecondstart:midsecondend,midfirststart:midfirstend,middle.shape[2]-thiefDimensions:middle.shape[2]] = 1
-  results.append(np.mean(middle[midsecondstart:midsecondend,midfirststart:midfirstend,middle.shape[2]-thiefDimensions:middle.shape[2]]))
-  #mid-3
-  MidSamplingArray[midfirststart:midfirstend,midsecondstart:midsecondend,middle.shape[2]-thiefDimensions:middle.shape[2]] = 1
-  results.append(np.mean(middle[midfirststart:midfirstend,midsecondstart:midsecondend,middle.shape[2]-thiefDimensions:middle.shape[2]]))
-  #mid-4
-  MidSamplingArray[midsecondstart:midsecondend,midsecondstart:midsecondend,middle.shape[2]-thiefDimensions:middle.shape[2]] = 1
-  results.append(np.mean(middle[midsecondstart:midsecondend,midsecondstart:midsecondend,middle.shape[2]-thiefDimensions:middle.shape[2]]))
+    #top sampling
+    TopSamplingArray = np.zeros(top.shape)
+    #top-1
+    TopSamplingArray[topfirststart:topfirstend,topfirststart:topfirstend,top.shape[2]-thiefDimensions:top.shape[2]] = 1
+    results.append(np.mean(top[topfirststart:topfirstend,topfirststart:topfirstend,top.shape[2]-thiefDimensions:top.shape[2]]))
+    #top-2
+    TopSamplingArray[topsecondstart:topsecondend,topfirststart:topfirstend,top.shape[2]-thiefDimensions:top.shape[2]] = 1
+    results.append(np.mean(top[topsecondstart:topsecondend,topfirststart:topfirstend,top.shape[2]-thiefDimensions:top.shape[2]]))
+    #top-3
+    TopSamplingArray[topfirststart:topfirstend,topsecondstart:topsecondend,top.shape[2]-thiefDimensions:top.shape[2]] = 1
+    results.append(np.mean(top[topfirststart:topfirstend,topsecondstart:topsecondend,top.shape[2]-thiefDimensions:top.shape[2]]))
+    #top-4
+    TopSamplingArray[topsecondstart:topsecondend,topsecondstart:topsecondend,top.shape[2]-thiefDimensions:top.shape[2]] = 1
+    results.append(np.mean(top[topsecondstart:topsecondend,topsecondstart:topsecondend,top.shape[2]-thiefDimensions:top.shape[2]]))
+    
+    #middle sampling
+    MidSamplingArray = np.zeros(middle.shape)
+    #mid-1
+    MidSamplingArray[midfirststart:midfirstend,midfirststart:midfirstend,middle.shape[2]-thiefDimensions:middle.shape[2]] = 1
+    results.append(np.mean(middle[midfirststart:midfirstend,midfirststart:midfirstend,middle.shape[2]-thiefDimensions:middle.shape[2]]))
+    #mid-2
+    MidSamplingArray[midsecondstart:midsecondend,midfirststart:midfirstend,middle.shape[2]-thiefDimensions:middle.shape[2]] = 1
+    results.append(np.mean(middle[midsecondstart:midsecondend,midfirststart:midfirstend,middle.shape[2]-thiefDimensions:middle.shape[2]]))
+    #mid-3
+    MidSamplingArray[midfirststart:midfirstend,midsecondstart:midsecondend,middle.shape[2]-thiefDimensions:middle.shape[2]] = 1
+    results.append(np.mean(middle[midfirststart:midfirstend,midsecondstart:midsecondend,middle.shape[2]-thiefDimensions:middle.shape[2]]))
+    #mid-4
+    MidSamplingArray[midsecondstart:midsecondend,midsecondstart:midsecondend,middle.shape[2]-thiefDimensions:middle.shape[2]] = 1
+    results.append(np.mean(middle[midsecondstart:midsecondend,midsecondstart:midsecondend,middle.shape[2]-thiefDimensions:middle.shape[2]]))
 
-  #bottom sampling
-  BotSamplingArray = np.zeros(bottom.shape)
-  #bot-1
-  BotSamplingArray[botfirststart:botfirstend,botfirststart:botfirstend,bottom.shape[2]-thiefDimensions:bottom.shape[2]] = 1
-  results.append(np.mean(bottom[botfirststart:botfirstend,botfirststart:botfirstend,bottom.shape[2]-thiefDimensions:bottom.shape[2]]))
-  #bot-2
-  BotSamplingArray[botsecondstart:botsecondend,botfirststart:botfirstend,bottom.shape[2]-thiefDimensions:bottom.shape[2]] = 1
-  results.append(np.mean(bottom[botsecondstart:botsecondend,botfirststart:botfirstend,bottom.shape[2]-thiefDimensions:bottom.shape[2]]))
-  #bot-3
-  BotSamplingArray[botfirststart:botfirstend,botsecondstart:botsecondend,bottom.shape[2]-thiefDimensions:bottom.shape[2]] = 1
-  results.append(np.mean(bottom[botfirststart:botfirstend,botsecondstart:botsecondend,bottom.shape[2]-thiefDimensions:bottom.shape[2]]))
-  #bot-4
-  BotSamplingArray[botsecondstart:botsecondend,botsecondstart:botsecondend,bottom.shape[2]-thiefDimensions:bottom.shape[2]] = 1
-  results.append(np.mean(bottom[botsecondstart:botsecondend,botsecondstart:botsecondend,bottom.shape[2]-thiefDimensions:bottom.shape[2]]))
+    #bottom sampling
+    BotSamplingArray = np.zeros(bottom.shape)
+    #bot-1
+    BotSamplingArray[botfirststart:botfirstend,botfirststart:botfirstend,bottom.shape[2]-thiefDimensions:bottom.shape[2]] = 1
+    results.append(np.mean(bottom[botfirststart:botfirstend,botfirststart:botfirstend,bottom.shape[2]-thiefDimensions:bottom.shape[2]]))
+    #bot-2
+    BotSamplingArray[botsecondstart:botsecondend,botfirststart:botfirstend,bottom.shape[2]-thiefDimensions:bottom.shape[2]] = 1
+    results.append(np.mean(bottom[botsecondstart:botsecondend,botfirststart:botfirstend,bottom.shape[2]-thiefDimensions:bottom.shape[2]]))
+    #bot-3
+    BotSamplingArray[botfirststart:botfirstend,botsecondstart:botsecondend,bottom.shape[2]-thiefDimensions:bottom.shape[2]] = 1
+    results.append(np.mean(bottom[botfirststart:botfirstend,botsecondstart:botsecondend,bottom.shape[2]-thiefDimensions:bottom.shape[2]]))
+    #bot-4
+    BotSamplingArray[botsecondstart:botsecondend,botsecondstart:botsecondend,bottom.shape[2]-thiefDimensions:bottom.shape[2]] = 1
+    results.append(np.mean(bottom[botsecondstart:botsecondend,botsecondstart:botsecondend,bottom.shape[2]-thiefDimensions:bottom.shape[2]]))
+  ##############################################################################################
+  #random sampling
+  if sampling == "random":
+    #top sampling
+    TopSamplingArray = np.zeros(top.shape)
+    while currentSample < numSamples:
+      random_x = random.randint(0,top.shape[0]-thiefDimensions)
+      random_z = random.randint(0,top.shape[1]-thiefDimensions)
+      random_y = random.randint(0,top.shape[2]-thiefDimensions)
+      section = TopSamplingArray[random_x:random_x+thiefDimensions,random_z:random_z+thiefDimensions,random_y:random_y+thiefDimensions]
+      if any(1 in sublist for sublist in section):
+        pass
+      else:
+        TopSamplingArray[random_x:random_x+thiefDimensions,random_z:random_z+thiefDimensions,random_y:random_y+thiefDimensions] = 1
+        results.append(np.mean(top[random_x:random_x+thiefDimensions,random_z:random_z+thiefDimensions,random_y:random_y+thiefDimensions]))
+        currentSample += 1
+    #middle sampling
+    currentSample = 0
+    MidSamplingArray = np.zeros(middle.shape)
+    while currentSample < numSamples:
+      random_x = random.randint(0,middle.shape[0]-thiefDimensions)
+      random_z = random.randint(0,middle.shape[1]-thiefDimensions)
+      random_y = random.randint(0,middle.shape[2]-thiefDimensions)
+      section = MidSamplingArray[random_x:random_x+thiefDimensions,random_z:random_z+thiefDimensions,random_y:random_y+thiefDimensions]
+      if any(1 in sublist for sublist in section):
+        pass
+      else:
+        MidSamplingArray[random_x:random_x+thiefDimensions,random_z:random_z+thiefDimensions,random_y:random_y+thiefDimensions] = 1
+        results.append(np.mean(middle[random_x:random_x+thiefDimensions,random_z:random_z+thiefDimensions,random_y:random_y+thiefDimensions]))
+        currentSample += 1
+    #bottom sampling
+    currentSample = 0
+    BotSamplingArray = np.zeros(bottom.shape)
+    while currentSample < numSamples:
+      random_x = random.randint(0,bottom.shape[0]-thiefDimensions)
+      random_z = random.randint(0,bottom.shape[1]-thiefDimensions)
+      random_y = random.randint(0,bottom.shape[2]-thiefDimensions)
+      section = BotSamplingArray[random_x:random_x+thiefDimensions,random_z:random_z+thiefDimensions,random_y:random_y+thiefDimensions]
+      if any(1 in sublist for sublist in section):
+        pass
+      else:
+        BotSamplingArray[random_x:random_x+thiefDimensions,random_z:random_z+thiefDimensions,random_y:random_y+thiefDimensions] = 1
+        results.append(np.mean(bottom[random_x:random_x+thiefDimensions,random_z:random_z+thiefDimensions,random_y:random_y+thiefDimensions]))
+        currentSample += 1
 
   #resize top, middle, and bottom so they'll be correctly displayed      
   top = np.pad(top,((0,0),(0,0),(firstStepEnd,0)), mode='constant')
