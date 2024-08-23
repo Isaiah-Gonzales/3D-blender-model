@@ -15,6 +15,7 @@ with tab1:
   if model_type != "-":
     distribution = st.sidebar.selectbox("Please choose how you wish the powder to be distributed in the blender", ["unmixed", "random", "poor"])
     blenderSize = st.sidebar.number_input("Size of blender (mL)", min_value=500, max_value=500000)
+    sampling = st.sidebar.selectbox("What kind of sampling would you like to perform?", ["standard", "random"], help="**Standard** sampling will mimic what occurs in the lab with a sample thief. **Random** sampling will grab samples from random locations the top, middle, and bottom sections.")
     advanced_options = st.sidebar.expander("Advanced Options")
     with advanced_options:
       thiefSize = st.slider("Size of sample thief (mL)", min_value = 1, max_value = 10, step =1)
@@ -47,7 +48,8 @@ with tab1:
                   distribution= distribution,
                   clumpiness=percentClumps/10,
                   clumpSize=sizeClumps,
-                  particleSize = particleSize)
+                  particleSize = particleSize,
+                  sampling = sampling)
       else:
         blender3D(
                   thiefSize=thiefSize, 
@@ -56,7 +58,8 @@ with tab1:
                   blenderSize=blenderSize, 
                   fillRatio=fillRatio,
                   distribution= distribution,
-                  particleSize = particleSize)
+                  particleSize = particleSize,
+                  sampling = sampling)
 
   if st.session_state['button'] == True:
     if model_type == "single blender":
@@ -81,7 +84,8 @@ with tab1:
                   clumpiness=percentClumps/10,
                   clumpSize=sizeClumps,
                   particleSize = particleSize,
-                  verbose = False))
+                  verbose = False,
+                  sampling = sampling))
           i += 1
         progbar.empty()
       else:
@@ -95,7 +99,8 @@ with tab1:
                   fillRatio=fillRatio,
                   distribution= distribution,
                   particleSize = particleSize,
-                  verbose = False))
+                  verbose = False,
+                  sampling = sampling))
           i += 1
         progbar.empty()
           
