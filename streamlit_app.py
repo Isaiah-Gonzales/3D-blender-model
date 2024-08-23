@@ -81,7 +81,7 @@ with tab1:
                   clumpiness=percentClumps/10,
                   clumpSize=sizeClumps,
                   particleSize = particleSize,
-                  Verbose = False))
+                  verbose = False))
           i += 1
         progbar.empty()
       else:
