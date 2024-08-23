@@ -110,17 +110,17 @@ with tab1:
         for val in result:
           flattenedResults.append(val)
 
-      fitView, standardView = st.tabs(["Y-axis fit to data", "Standardized Y-axis"])
+      fitView, standardView = st.tabs(["Y-axis fit to data", "Standardized Y-axis (allows you to compare plots more easily)"])
       with fitView:
         figure, ax = plt.subplots(figsize=(10,10))
         viz = ax.boxplot(meanResults)
-        plt.title("Spread of mean assays for simulated blender with distribution = " + str(distribution) + ". Y-axis fit to data")
+        plt.title("Spread of mean assays for simulated blender with distribution = " + str(distribution))
         plt.ylabel("Mean Assay (%)")
         st.pyplot(figure)
       with standardView:
         figure2, ax2 = plt.subplots(figsize=(10,10))
         viz = ax2.boxplot(meanResults)
-        plt.title("Spread of mean assays for simulated blender with distribution = " + str(distribution) + ". Standardized y-axes (so you can compare plots more easily)")
+        plt.title("Spread of mean assays for simulated blender with distribution = " + str(distribution))
         plt.ylim((0,150))
         plt.ylabel("Mean Assay (%)")
         st.pyplot(figure2)
