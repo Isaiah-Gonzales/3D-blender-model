@@ -113,13 +113,13 @@ with tab1:
       
       figure, ax = plt.subplots(figsize=(10,10))
       viz = ax.boxplot(meanResults)
-      plt.title("Spread of mean assays for simulated blender with distribution = " + str(distribution) + " y axis fit to data")
+      plt.title("Spread of mean assays for simulated blender with distribution = " + str(distribution) + ". Y-axis fit to data")
       plt.ylabel("Mean Assay (%)")
       st.pyplot(figure)
 
       figure2, ax2 = plt.subplots(figsize=(10,10))
       viz = ax2.boxplot(meanResults)
-      plt.title("Spread of mean assays for simulated blender with distribution = " + str(distribution) + " standardized y-axes (so you can compare plots more easily)")
+      plt.title("Spread of mean assays for simulated blender with distribution = " + str(distribution) + ". Standardized y-axes (so you can compare plots more easily)")
       plt.ylim((0,150))
       plt.ylabel("Mean Assay (%)")
       st.pyplot(figure2)
