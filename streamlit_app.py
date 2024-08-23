@@ -110,7 +110,7 @@ with tab1:
         for val in result:
           flattenedResults.append(val)
 
-      fitView, standardView = st.tabs["Y-axis fit to data", "Standardized Y-axis"]
+      fitView, standardView = st.tabs(["Y-axis fit to data", "Standardized Y-axis"])
       with fitView:
         figure, ax = plt.subplots(figsize=(10,10))
         viz = ax.boxplot(meanResults)
