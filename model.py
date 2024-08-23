@@ -394,7 +394,10 @@ def blender3D(blenderSize, fillRatio,thiefSize, distribution, DL=20, particleSiz
   #adjust results so they're in percent of expected assay
   percentAssays = []
   for results in results:
-    assay = ((results/DL)*100)
+    if DL == 0:
+      assay = 0
+    else:
+      assay = ((results/DL)*100)
     percentAssays.append(round(assay,2))
   
   #display results table
@@ -436,11 +439,20 @@ def displayBlender(placeholderaxes, blender,filledspace, top, middle, bottom, To
   ax2.set_title("Top, middle, and bottom sample locations with DS distribution = " + str(distribution) + ". DS shown in black, excipient shown in white.")
   cmap = plt.cm.binary.copy()
   topcolors = cmap(top)
-  ax2.voxels(top, facecolors=topcolors)
+  if np.mean(top) == 0.00001: #if top is all excipient
+    ax2.voxels(top, facecolors='lightgray')
+  else:
+    ax2.voxels(top, facecolors=topcolors)
   midcolors = cmap(middle)
-  ax2.voxels(middle, facecolors=midcolors)
+  if np.mean(middle) == 0.00001: #if middle is all excipient
+    ax2.voxels(middle, facecolors='lightgray')
+  else:
+    ax2.voxels(middle, facecolors=midcolors)
   botcolors = cmap(bottom)
-  ax2.voxels(bottom, facecolors=botcolors)
+  if np.mean(bottom) == 0.00001: #if bottom is all excipient
+    ax2.voxels(bottom, facecolors='lightgray')
+  else:
+    ax2.voxels(bottom, facecolors=botcolors)
   ax2.voxels(TopSamplingArray, facecolors='b')
   ax2.voxels(MidSamplingArray, facecolors='y')
   ax2.voxels(BotSamplingArray, facecolors='r')
