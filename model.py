@@ -96,7 +96,11 @@ def blender3D(blenderSize, fillRatio,thiefSize, distribution, DL=20, particleSiz
     portionBottom = numDSbot/numDSparticles
     ##############################################################################################
     if distribution == "unmixed":
-      DSlevel = int(filler*(DL/100))
+      DSlevel = 0
+      counter = 0
+      while counter < numDSparticles:
+        counter += placeholdercube[:,:,DSlevel]
+        DSlevel += 1
       if DSlevel > firstStepEnd:
         bottom[:,:,:] = percentPurityOfDS
         middle[:,:,:] = percentPurityOfDS
