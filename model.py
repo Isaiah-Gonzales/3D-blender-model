@@ -21,7 +21,7 @@ def blender3D(blenderSize, fillRatio,thiefSize, distribution, DL=20, particleSiz
   
   #find out how many particles to simulate
   volPowder = blenderSize*fillRatio
-  particlesizecm = particleSize/10000 #um to cm
+  particlesizecm = (particleSize**3)/(1*10**12) #um3 to cm3
   potentialParticles = blenderSize/particlesizecm
   particles = volPowder/particlesizecm
   particlesTop = potentialParticles *(600/740)
