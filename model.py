@@ -99,7 +99,7 @@ def blender3D(blenderSize, fillRatio,thiefSize, distribution, DL=20, particleSiz
       DSlevel = 0
       counter = 0
       while counter < numDSparticles:
-        counter += placeholdercube[:,:,DSlevel]
+        counter += placeholderCube[:,:,DSlevel]
         DSlevel += 1
       if DSlevel > firstStepEnd:
         bottom[:,:,:] = percentPurityOfDS
@@ -265,7 +265,7 @@ def blender3D(blenderSize, fillRatio,thiefSize, distribution, DL=20, particleSiz
           i += 1
         else:
           pass
-      
+  st.write("distributed")
   ##############################################################################################
   #sampling
   results = []
