@@ -186,7 +186,7 @@ def blender3D(blenderSize, fillRatio,thiefSize, distribution, DL=20, particleSiz
     ##############################################################################################
     if distribution == "poor":
       clumpedParticles = int(numDSparticles*(clumpiness/10))
-      numParticlesPerClump = int(clumpSize/particleSize)
+      numParticlesPerClump = int((clumpSize**3)/(particleSize**3))
       axisSizeclump = int(numParticlesPerClump**(1/3))
       if axisSizeclump > bottom.shape[2]:
         st.warning("Clump size too big in relation to blender for correct sampling, please reduce clump size or increase blender size.")
