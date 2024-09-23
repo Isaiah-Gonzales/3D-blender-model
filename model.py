@@ -8,7 +8,7 @@ import random
 import math
 import pandas as pd
 
-def blender3D(blenderSize, fillRatio,thiefSize, distribution, DL=20, particleSize=100,percentPurityOfDS=100, clumpiness=0, clumpSize=1000, verbose = True, sampling="standard"):
+def blender3D(blenderSize, fillRatio,thiefSize, distribution, DL=20, particleSize=100,percentPurityOfDS=100, clumpiness=0, clumpSize=1000, verbose = True, sampling="standard", resolution = 1):
   global placeholderaxes 
   global blender 
   global filledspace
@@ -21,9 +21,9 @@ def blender3D(blenderSize, fillRatio,thiefSize, distribution, DL=20, particleSiz
   
   #find out how many particles to simulate
   volPowder = blenderSize*fillRatio
-  particlesizecm = (particleSize)/10000 #um3 to cm3
-  potentialParticles = blenderSize/particlesizecm
-  particles = volPowder/particlesizecm
+  particlesizecm = (particleSize**3)/(10**12) #um3 to cm3
+  potentialParticles = (blenderSize/particlesizecm)*(resolution/100)
+  particles = (volPowder/particlesizecm)*(resolution/100)
   particlesTop = potentialParticles *(600/740)
   placeholderaxes = int((particlesTop*(5/3)) ** (1/3))
   if placeholderaxes % 2 != 0:
